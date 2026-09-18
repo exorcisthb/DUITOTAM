@@ -2,11 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight, Heart, Menu, Search, ShoppingBag, Star, User, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SilkOrbit } from "@/components/silk-orbit";
 import ivory from "@/assets/product-ivory.jpg";
 import charcoal from "@/assets/product-charcoal.jpg";
 import green from "@/assets/product-green.jpg";
 import silkDetail from "@/assets/silk-detail.jpg";
+import heroVideo from "@/assets/moc-silk-hero.mp4.asset.json";
+import heroPoster from "@/assets/moc-silk-hero-poster.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -74,23 +75,28 @@ function Home() {
         {menu && <div className="grid gap-4 border-t border-border px-5 py-5 text-sm uppercase tracking-[0.12em] md:hidden"><a href="#products" onClick={() => setMenu(false)}>Sản phẩm</a><a href="#craft" onClick={() => setMenu(false)}>Chất liệu</a><button className="text-left" onClick={() => demo("Community")}>Community</button><button className="text-left" onClick={() => demo("Đăng nhập")}>Đăng nhập</button><button className="text-left" onClick={() => demo("Đăng ký")}>Đăng ký</button></div>}
       </header>
 
-      <section id="top" className="relative min-h-[calc(100svh-104px)] border-b border-border bg-hero">
-        <div className="mx-auto grid min-h-[calc(100svh-104px)] max-w-[1440px] items-center px-5 py-12 md:grid-cols-[0.9fr_1.1fr] md:px-10">
-          <div className="relative z-10 max-w-xl pt-8 md:pt-0">
-            <p className="mb-6 text-xs font-semibold uppercase tracking-[0.28em] text-accent">Bộ sưu tập Thu Đông 2026</p>
-            <h1 className="font-display text-[clamp(3.4rem,7vw,7.4rem)] leading-[0.87]">Mộc Silk</h1>
-            <p className="mt-7 max-w-md text-base leading-7 text-muted-foreground md:text-lg">Vẻ đẹp nguyên bản của đũi tơ tằm, được dệt chậm và may đo cho người phụ nữ Việt đương đại.</p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Button variant="commerce" size="commerce" asChild><a href="#products">Khám phá bộ sưu tập <ArrowRight /></a></Button>
-              <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">100% sợi tơ tự nhiên</p>
-            </div>
-          </div>
-          <div className="relative h-[48vh] min-h-[350px] md:h-[72vh]">
-            <SilkOrbit />
-            <div className="pointer-events-none absolute bottom-7 right-0 max-w-40 border-l border-accent pl-4 text-xs leading-5 text-muted-foreground">Chạm và di chuyển để cảm nhận chuyển động của sợi tơ.</div>
+      <section id="top" className="relative min-h-[calc(100svh-104px)] overflow-hidden border-b border-border bg-primary">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src={heroVideo.url}
+          poster={heroPoster.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-label="Người mẫu mặc trang phục lụa đũi Mộc Silk"
+        />
+        <div className="absolute inset-0 bg-primary/20" aria-hidden="true" />
+        <div className="relative z-10 flex min-h-[calc(100svh-104px)] items-end justify-center px-5 pb-14 pt-24 text-center text-primary-foreground md:pb-20">
+          <div className="max-w-3xl">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em]">Bộ sưu tập Thu Đông 2026</p>
+            <h1 className="font-display text-[clamp(3.3rem,7vw,7rem)] leading-none">Mộc Silk</h1>
+            <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-primary-foreground/90 md:text-base">Vẻ đẹp nguyên bản của đũi tơ tằm, được dệt chậm cho người phụ nữ Việt đương đại.</p>
+            <Button variant="quiet" size="commerce" className="mt-7 border-primary-foreground bg-background/95 text-foreground hover:bg-background" asChild><a href="#products">Khám phá bộ sưu tập <ArrowRight /></a></Button>
           </div>
         </div>
-        <a href="#products" className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 text-[0.62rem] uppercase tracking-[0.25em] text-muted-foreground md:block">Cuộn để khám phá ↓</a>
+        <a href="#products" className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 text-[0.62rem] uppercase tracking-[0.25em] text-primary-foreground/80 md:block">Cuộn để khám phá ↓</a>
       </section>
 
       <section id="products" className="mx-auto max-w-[1440px] px-5 py-20 md:px-10 md:py-28">
