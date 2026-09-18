@@ -66,12 +66,12 @@ function Home() {
           </nav>
           <div className="flex items-center gap-1 md:gap-3">
             <Button variant="ghost" size="icon" aria-label="Tìm kiếm" onClick={() => demo("Tìm kiếm")}><Search /></Button>
-            <Button variant="ghost" size="icon" aria-label="Đăng nhập" onClick={() => demo("Đăng nhập")}><User /></Button>
+            <Button variant="ghost" size="sm" aria-label="Đăng nhập" onClick={() => demo("Đăng nhập")}><User /><span className="hidden lg:inline">Đăng nhập</span></Button>
             <Button variant="quiet" size="sm" className="hidden lg:inline-flex" onClick={() => demo("Đăng ký")}>Đăng ký</Button>
             <Button variant="ghost" size="icon" aria-label={`Giỏ hàng, ${bag} sản phẩm`} onClick={() => demo("Giỏ hàng")} className="relative"><ShoppingBag/><span className="absolute right-0 top-0 grid size-4 place-items-center rounded-full bg-accent text-[0.6rem] text-accent-foreground">{bag}</span></Button>
           </div>
         </div>
-        {menu && <div className="grid gap-4 border-t border-border px-5 py-5 text-sm uppercase tracking-[0.12em] md:hidden"><a href="#products" onClick={() => setMenu(false)}>Sản phẩm</a><a href="#craft" onClick={() => setMenu(false)}>Chất liệu</a><button className="text-left" onClick={() => demo("Community")}>Community</button><button className="text-left" onClick={() => demo("Đăng ký")}>Đăng ký</button></div>}
+        {menu && <div className="grid gap-4 border-t border-border px-5 py-5 text-sm uppercase tracking-[0.12em] md:hidden"><a href="#products" onClick={() => setMenu(false)}>Sản phẩm</a><a href="#craft" onClick={() => setMenu(false)}>Chất liệu</a><button className="text-left" onClick={() => demo("Community")}>Community</button><button className="text-left" onClick={() => demo("Đăng nhập")}>Đăng nhập</button><button className="text-left" onClick={() => demo("Đăng ký")}>Đăng ký</button></div>}
       </header>
 
       <section id="top" className="relative min-h-[calc(100svh-104px)] border-b border-border bg-hero">
