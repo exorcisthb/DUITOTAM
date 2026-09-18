@@ -10,7 +10,7 @@
 - Tối ưu hiển thị trên điện thoại và máy tính, kèm trạng thái giảm chuyển động.
 
 ## Hướng mỹ thuật
-- Tinh giản Á Đông đương đại: nền ngà giấy dó, mực đen, đỏ sơn mài và xanh lá dâu làm điểm nhấn.
+- Tinh giản Á Đông đương đại: nền ngà giấy dó, mực than và xanh lá dâu nhạt làm điểm nhấn; loại bỏ màu đỏ để tổng thể dịu mắt, không màu mè.
 - Chữ tiêu đề thanh lịch, chữ nội dung rõ ràng; ảnh thời trang giàu chất liệu, ánh sáng tự nhiên.
 - Chuyển cảnh cuộn có tiết chế, ưu tiên cảm giác vải chuyển động thay vì hiệu ứng trang trí.
 
