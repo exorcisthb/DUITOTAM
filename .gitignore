@@ -16,6 +16,16 @@ dist-ssr
 .nitro
 *.local
 
+# Environment variables (contains secrets)
+.env
+.env.*
+!.env.example
+
+# Local SQLite database
+sqlite.db
+sqlite.db-shm
+sqlite.db-wal
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

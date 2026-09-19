@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Heart, Menu, Search, ShoppingBag, Star, User, Users, X } from "lucide-react";
+import { ArrowRight, Heart, LogOut, Menu, Search, ShoppingBag, Star, User, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth-context";
 import ivory from "@/assets/product-ivory.jpg";
 import charcoal from "@/assets/product-charcoal.jpg";
 import green from "@/assets/product-green.jpg";
@@ -37,6 +38,7 @@ const products = [
 const filters = ["Tất cả", "Áo dài", "Đầm", "Áo kiểu", "Quần"];
 
 function Home() {
+  const { user, openAuthModal, logout } = useAuth();
   const [filter, setFilter] = useState("Tất cả");
   const [bag, setBag] = useState(0);
   const [menu, setMenu] = useState(false);
@@ -67,24 +69,93 @@ function Home() {
           </nav>
           <div className="flex items-center gap-1 md:gap-3">
             <Button variant="ghost" size="icon" aria-label="Tìm kiếm" onClick={() => demo("Tìm kiếm")}><Search /></Button>
-            <Button variant="ghost" size="sm" aria-label="Đăng nhập" onClick={() => demo("Đăng nhập")}><User /><span className="hidden lg:inline">Đăng nhập</span></Button>
-            <Button variant="quiet" size="sm" className="hidden lg:inline-flex" onClick={() => demo("Đăng ký")}>Đăng ký</Button>
+            
+            {user ? (
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary/80 border border-border text-xs font-medium">
+                  <User className="size-3.5 text-accent" />
+                  <span className="max-w-[130px] truncate">{user.name}</span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-label="Đăng xuất"
+                  onClick={() => {
+                    logout();
+                    setNotice("Đã đăng xuất tài khoản.");
+                  }}
+                  className="text-xs text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                >
+                  <LogOut className="size-3.5 mr-1" />
+                  <span className="hidden lg:inline">Đăng xuất</span>
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-label="Đăng nhập"
+                  onClick={() => openAuthModal("login")}
+                >
+                  <User />
+                  <span className="hidden lg:inline">Đăng nhập</span>
+                </Button>
+                <Button
+                  variant="quiet"
+                  size="sm"
+                  className="hidden lg:inline-flex"
+                  onClick={() => openAuthModal("register")}
+                >
+                  Đăng ký
+                </Button>
+              </>
+            )}
+
             <Button variant="ghost" size="icon" aria-label={`Giỏ hàng, ${bag} sản phẩm`} onClick={() => demo("Giỏ hàng")} className="relative"><ShoppingBag/><span className="absolute right-0 top-0 grid size-4 place-items-center rounded-full bg-accent text-[0.6rem] text-accent-foreground">{bag}</span></Button>
           </div>
         </div>
-        {menu && <div className="grid gap-4 border-t border-border px-5 py-5 text-sm uppercase tracking-[0.12em] md:hidden"><a href="#products" onClick={() => setMenu(false)}>Sản phẩm</a><a href="#craft" onClick={() => setMenu(false)}>Chất liệu</a><button className="text-left" onClick={() => demo("Community")}>Community</button><button className="text-left" onClick={() => demo("Đăng nhập")}>Đăng nhập</button><button className="text-left" onClick={() => demo("Đăng ký")}>Đăng ký</button></div>}
+        {menu && (
+          <div className="grid gap-4 border-t border-border px-5 py-5 text-sm uppercase tracking-[0.12em] md:hidden">
+            <a href="#products" onClick={() => setMenu(false)}>Sản phẩm</a>
+            <a href="#craft" onClick={() => setMenu(false)}>Chất liệu</a>
+            <button className="text-left" onClick={() => { setMenu(false); demo("Community"); }}>Community</button>
+            {user ? (
+              <div className="border-t border-border pt-4 mt-1 space-y-2">
+                <p className="text-[0.65rem] tracking-[0.18em] uppercase text-muted-foreground">Tài khoản thành viên</p>
+                <p className="font-semibold text-foreground normal-case tracking-normal">{user.name}</p>
+                <p className="text-xs text-muted-foreground lowercase tracking-normal">{user.email}</p>
+                <button
+                  className="pt-2 flex items-center gap-2 text-destructive text-xs uppercase tracking-[0.12em]"
+                  onClick={() => {
+                    setMenu(false);
+                    logout();
+                    setNotice("Đã đăng xuất tài khoản.");
+                  }}
+                >
+                  <LogOut size={15} /> Đăng xuất
+                </button>
+              </div>
+            ) : (
+              <>
+                <button className="text-left" onClick={() => { setMenu(false); openAuthModal("login"); }}>Đăng nhập</button>
+                <button className="text-left" onClick={() => { setMenu(false); openAuthModal("register"); }}>Đăng ký</button>
+              </>
+            )}
+          </div>
+        )}
       </header>
 
       <section id="top" className="relative min-h-[calc(100svh-104px)] overflow-hidden border-b border-border bg-primary">
         <video
           className="absolute inset-0 h-full w-full object-cover"
-          src={heroVideo.url}
-          poster={heroPoster.url}
+          src="/hero-video.mp4"
+          poster={silkDetail}
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           aria-label="Người mẫu mặc trang phục lụa đũi Mộc Silk"
         />
         <div className="absolute inset-0 bg-primary/20" aria-hidden="true" />
