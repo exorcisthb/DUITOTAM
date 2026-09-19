@@ -9,8 +9,8 @@ import { Eye, EyeOff, Mail, Lock, User as UserIcon, ArrowLeft, AlertCircle, Chec
 export const Route = createFileRoute("/register")({
   head: () => ({
     meta: [
-      { title: "Đăng ký — Mộc Silk" },
-      { name: "description", content: "Tạo tài khoản thành viên Mộc Silk." },
+      { title: "Đăng ký — Maison de Silk" },
+      { name: "description", content: "Tạo tài khoản thành viên Maison de Silk." },
     ],
   }),
   component: RegisterPage,
@@ -52,7 +52,7 @@ function RegisterPage() {
       return;
     }
     if (!agreeTerms) {
-      setErrorMsg("Vui lòng đồng ý với điều khoản & chính sách của Mộc Silk.");
+      setErrorMsg("Vui lòng đồng ý với điều khoản & chính sách của Maison de Silk.");
       return;
     }
 
@@ -63,7 +63,7 @@ function RegisterPage() {
     });
 
     if (res.success) {
-      setSuccessMsg(`Đăng ký thành công! Chào mừng ${res.user?.name} đến với Mộc Silk.`);
+      setSuccessMsg(`Đăng ký thành công! Chào mừng ${res.user?.name} đến với Maison de Silk.`);
       setTimeout(() => {
         navigate({ to: "/" });
       }, 1200);
@@ -87,7 +87,7 @@ function RegisterPage() {
         <div className="rounded-lg border border-border/80 bg-card p-8 shadow-sm">
           <div className="text-center mb-8">
             <p className="text-[0.68rem] tracking-[0.24em] uppercase font-semibold text-accent mb-2 flex items-center justify-center gap-1.5">
-              <Sparkles className="size-3" /> Mộc Silk
+              <Sparkles className="size-3" /> Maison de Silk
             </p>
             <h1 className="font-display text-4xl font-normal tracking-wide text-foreground">Tạo Tài Khoản</h1>
             <p className="text-muted-foreground text-xs mt-2">
@@ -214,7 +214,7 @@ function RegisterPage() {
                   className="rounded border-border text-primary focus:ring-primary size-4 cursor-pointer"
                 />
                 <label htmlFor="page-terms" className="text-xs text-muted-foreground cursor-pointer select-none">
-                  Tôi đồng ý với chính sách bảo mật & điều khoản của Mộc Silk
+                  Tôi đồng ý với chính sách bảo mật & điều khoản của Maison de Silk
                 </label>
               </div>
 

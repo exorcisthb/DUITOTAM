@@ -75,7 +75,7 @@ export function AuthModal() {
       return;
     }
     if (!agreeTerms) {
-      setErrorMsg("Vui lòng đồng ý với điều khoản & chính sách của Mộc Silk.");
+      setErrorMsg("Vui lòng đồng ý với điều khoản & chính sách của Maison de Silk.");
       return;
     }
 
@@ -86,7 +86,7 @@ export function AuthModal() {
     });
 
     if (res.success) {
-      setSuccessMsg(`Đăng ký thành công! Chào mừng ${res.user?.name} đến với Mộc Silk.`);
+      setSuccessMsg(`Đăng ký thành công! Chào mừng ${res.user?.name} đến với Maison de Silk.`);
       setTimeout(() => {
         setSuccessMsg("");
       }, 1500);
@@ -102,7 +102,7 @@ export function AuthModal() {
         <div className="bg-primary/95 text-primary-foreground px-8 py-7 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-radial from-accent/20 to-transparent pointer-events-none opacity-50" />
           <p className="text-[0.68rem] tracking-[0.24em] uppercase font-semibold text-accent mb-1 flex items-center justify-center gap-1.5">
-            <Sparkles className="size-3" /> Mộc Silk Authenticity
+            <Sparkles className="size-3" /> Maison de Silk Authenticity
           </p>
           <DialogTitle className="font-display text-3xl font-normal tracking-wide text-primary-foreground">
             {authModalTab === "login" ? "Đăng Nhập" : "Đăng Ký Thành Viên"}
@@ -326,7 +326,7 @@ export function AuthModal() {
                   className="rounded border-border text-primary focus:ring-primary size-4 cursor-pointer"
                 />
                 <label htmlFor="terms" className="text-xs text-muted-foreground cursor-pointer select-none">
-                  Tôi đồng ý với chính sách & điều khoản của Mộc Silk
+                  Tôi đồng ý với chính sách & điều khoản của Maison de Silk
                 </label>
               </div>
 

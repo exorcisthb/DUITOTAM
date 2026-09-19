@@ -13,9 +13,9 @@ import heroPoster from "@/assets/moc-silk-hero-poster.jpg.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Mộc Silk — Thời trang đũi tơ tằm cao cấp" },
+      { title: "Maison de Silk — Thời trang đũi tơ tằm cao cấp" },
       { name: "description", content: "Khám phá thời trang đũi tơ tằm Việt Nam, được dệt thủ công cho nhịp sống đương đại." },
-      { property: "og:title", content: "Mộc Silk — Thời trang đũi tơ tằm cao cấp" },
+      { property: "og:title", content: "Maison de Silk — Thời trang đũi tơ tằm cao cấp" },
       { property: "og:description", content: "Thiết kế thanh lịch từ sợi tơ tự nhiên và bàn tay nghệ nhân Việt." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -61,7 +61,7 @@ function Home() {
       <header className="sticky top-0 z-40 border-b border-border/70 bg-background/92 backdrop-blur-xl">
         <div className="mx-auto flex h-18 max-w-[1440px] items-center justify-between px-5 md:px-10">
           <button className="md:hidden" aria-label="Mở menu" onClick={() => setMenu(!menu)}>{menu ? <X /> : <Menu />}</button>
-          <a href="#top" className="font-display text-2xl tracking-[0.2em]">MỘC <span className="text-accent">SILK</span></a>
+          <a href="#top" className="font-display text-2xl tracking-[0.16em]">MAISON DE <span className="text-accent">SILK</span></a>
           <nav className="hidden items-center gap-8 text-[0.72rem] font-semibold uppercase tracking-[0.14em] md:flex">
             <a href="#products" className="transition-colors hover:text-accent">Sản phẩm</a>
             <a href="#craft" className="transition-colors hover:text-accent">Chất liệu</a>
@@ -156,13 +156,13 @@ function Home() {
           loop
           playsInline
           preload="auto"
-          aria-label="Người mẫu mặc trang phục lụa đũi Mộc Silk"
+          aria-label="Người mẫu mặc trang phục lụa đũi Maison de Silk"
         />
         <div className="absolute inset-0 bg-primary/20" aria-hidden="true" />
         <div className="relative z-10 flex min-h-[calc(100svh-104px)] items-end justify-center px-5 pb-14 pt-24 text-center text-primary-foreground md:pb-20">
           <div className="max-w-3xl">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em]">Bộ sưu tập Thu Đông 2026</p>
-            <h1 className="font-display text-[clamp(3.3rem,7vw,7rem)] leading-none">Mộc Silk</h1>
+            <h1 className="font-display text-[clamp(2.8rem,6vw,6rem)] leading-none">Maison de Silk</h1>
             <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-primary-foreground/90 md:text-base">Vẻ đẹp nguyên bản của đũi tơ tằm, được dệt chậm cho người phụ nữ Việt đương đại.</p>
             <Button variant="quiet" size="commerce" className="mt-7 border-primary-foreground bg-background/95 text-foreground hover:bg-background" asChild><a href="#products">Khám phá bộ sưu tập <ArrowRight /></a></Button>
           </div>
@@ -201,7 +201,7 @@ function Home() {
 
       <section className="mx-auto max-w-[1100px] px-5 py-24 text-center md:py-32"><div className="mb-5 flex justify-center gap-1 text-accent">{Array.from({length:5}).map((_,i)=><Star key={i} size={16} fill="currentColor"/>)}</div><blockquote className="font-display text-3xl leading-snug md:text-5xl">“Mặc lên nhẹ như không, nhưng từng đường vân vải lại kể một câu chuyện rất Việt.”</blockquote><p className="mt-7 text-xs uppercase tracking-[0.18em] text-muted-foreground">Thu Hà — Khách hàng tại Hà Nội</p></section>
 
-      <footer className="bg-primary px-5 py-14 text-primary-foreground md:px-10"><div className="mx-auto grid max-w-[1440px] gap-10 md:grid-cols-3"><div><p className="font-display text-3xl tracking-[0.14em]">MỘC SILK</p><p className="mt-4 max-w-xs text-sm leading-6 text-primary-foreground/65">Thời trang đũi tơ tằm cao cấp, mang tinh thần Việt vào từng chuyển động.</p></div><div className="grid grid-cols-2 gap-8 text-sm"><div className="space-y-3"><p className="text-xs uppercase tracking-[0.15em] text-primary-foreground/55">Khám phá</p><p>Sản phẩm</p><p>Câu chuyện</p><p>Community</p></div><div className="space-y-3"><p className="text-xs uppercase tracking-[0.15em] text-primary-foreground/55">Hỗ trợ</p><p>Chăm sóc sản phẩm</p><p>Đổi trả</p><p>Liên hệ</p></div></div><div><p className="text-xs uppercase tracking-[0.15em] text-primary-foreground/55">Thư từ Mộc</p><p className="mt-3 text-sm">Nhận câu chuyện chất liệu và bộ sưu tập mới.</p><div className="mt-5 flex border-b border-primary-foreground/35"><input className="min-w-0 flex-1 bg-transparent py-3 text-sm outline-none placeholder:text-primary-foreground/45" placeholder="Email của bạn"/><button aria-label="Đăng ký nhận thư"><ArrowRight/></button></div></div></div><div className="mx-auto mt-12 flex max-w-[1440px] flex-col justify-between gap-3 border-t border-primary-foreground/15 pt-6 text-xs text-primary-foreground/50 md:flex-row"><p>© 2026 Mộc Silk. Gìn giữ nét Việt.</p><p>Hà Nội · Hội An · TP. Hồ Chí Minh</p></div></footer>
+      <footer className="bg-primary px-5 py-14 text-primary-foreground md:px-10"><div className="mx-auto grid max-w-[1440px] gap-10 md:grid-cols-3"><div><p className="font-display text-3xl tracking-[0.14em]">MAISON DE SILK</p><p className="mt-4 max-w-xs text-sm leading-6 text-primary-foreground/65">Thời trang đũi tơ tằm cao cấp, mang tinh thần Việt vào từng chuyển động.</p></div><div className="grid grid-cols-2 gap-8 text-sm"><div className="space-y-3"><p className="text-xs uppercase tracking-[0.15em] text-primary-foreground/55">Khám phá</p><p>Sản phẩm</p><p>Câu chuyện</p><p>Community</p></div><div className="space-y-3"><p className="text-xs uppercase tracking-[0.15em] text-primary-foreground/55">Hỗ trợ</p><p>Chăm sóc sản phẩm</p><p>Đổi trả</p><p>Liên hệ</p></div></div><div><p className="text-xs uppercase tracking-[0.15em] text-primary-foreground/55">Thư từ Maison</p><p className="mt-3 text-sm">Nhận câu chuyện chất liệu và bộ sưu tập mới.</p><div className="mt-5 flex border-b border-primary-foreground/35"><input className="min-w-0 flex-1 bg-transparent py-3 text-sm outline-none placeholder:text-primary-foreground/45" placeholder="Email của bạn"/><button aria-label="Đăng ký nhận thư"><ArrowRight/></button></div></div></div><div className="mx-auto mt-12 flex max-w-[1440px] flex-col justify-between gap-3 border-t border-primary-foreground/15 pt-6 text-xs text-primary-foreground/50 md:flex-row"><p>© 2026 Maison de Silk. Gìn giữ nét Việt.</p><p>Hà Nội · Hội An · TP. Hồ Chí Minh</p></div></footer>
       {notice && <div role="status" className="fixed bottom-5 left-1/2 z-50 -translate-x-1/2 bg-primary px-5 py-3 text-sm text-primary-foreground shadow-xl">{notice}</div>}
     </main>
   );

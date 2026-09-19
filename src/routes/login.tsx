@@ -9,8 +9,8 @@ import { Eye, EyeOff, Mail, Lock, ArrowLeft, AlertCircle, CheckCircle2, Loader2,
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Đăng nhập — Mộc Silk" },
-      { name: "description", content: "Đăng nhập tài khoản thành viên Mộc Silk." },
+      { title: "Đăng nhập — Maison de Silk" },
+      { name: "description", content: "Đăng nhập tài khoản thành viên Maison de Silk." },
     ],
   }),
   component: LoginPage,
@@ -62,7 +62,7 @@ function LoginPage() {
         <div className="rounded-lg border border-border/80 bg-card p-8 shadow-sm">
           <div className="text-center mb-8">
             <p className="text-[0.68rem] tracking-[0.24em] uppercase font-semibold text-accent mb-2 flex items-center justify-center gap-1.5">
-              <Sparkles className="size-3" /> Mộc Silk
+              <Sparkles className="size-3" /> Maison de Silk
             </p>
             <h1 className="font-display text-4xl font-normal tracking-wide text-foreground">Đăng Nhập</h1>
             <p className="text-muted-foreground text-xs mt-2">

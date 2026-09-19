@@ -79,9 +79,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Mộc Silk" },
+      { title: "Maison de Silk" },
       { name: "description", content: "Thời trang đũi tơ tằm Việt Nam cao cấp." },
-      { name: "author", content: "Mộc Silk" },
+      { name: "author", content: "Maison de Silk" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
