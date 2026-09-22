@@ -7,6 +7,7 @@ import {
   Calendar,
   Clock,
   Edit3,
+  Eye,
   Heart,
   ThumbsDown,
   Image as ImageIcon,
@@ -958,76 +959,112 @@ export default function CommunityPage() {
           /* ========================================================================= */
           <div className="animate-in fade-in duration-300">
             <div className="space-y-8">
-              {/* Form đăng status cộng đồng */}
-              <div className="border border-border bg-background p-6 shadow-sm">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="grid size-10 place-items-center rounded-full bg-foreground text-background font-bold text-sm">
-                    {user ? user.name.charAt(0).toUpperCase() : "U"}
+              {/* Form đăng status + Bài viết của tôi — 2 cột */}
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                {/* Cột trái: Form đăng bài */}
+                <div className="lg:col-span-3 border border-border bg-background p-6 shadow-sm">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="grid size-10 place-items-center rounded-full bg-foreground text-background font-bold text-sm">
+                      {user ? user.name.charAt(0).toUpperCase() : "U"}
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold">
+                        {user ? user.name : "Bạn đang nghĩ gì về đũi tơ hôm nay?"}
+                      </h3>
+                      <p className="text-[0.7rem] text-muted-foreground">
+                        Chia sẻ trải nghiệm mặc đẹp, câu hỏi hoặc hình ảnh cùng cộng đồng
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-sm font-semibold">
-                      {user ? user.name : "Bạn đang nghĩ gì về đũi tơ hôm nay?"}
-                    </h3>
-                    <p className="text-[0.7rem] text-muted-foreground">
-                      Chia sẻ trải nghiệm mặc đẹp, câu hỏi hoặc hình ảnh cùng cộng đồng
-                    </p>
-                  </div>
+
+                  <form onSubmit={handleCreateDiscussion}>
+                    <textarea
+                      rows={3}
+                      value={postContent}
+                      onChange={(e) => setPostContent(e.target.value)}
+                      placeholder={user ? "Viết cảm nghĩ, trải nghiệm phối đồ hoặc câu hỏi gửi tới cộng đồng Maison de Silk..." : "Đăng nhập để tham gia thảo luận với cộng đồng..."}
+                      disabled={!user}
+                      className="w-full border border-border bg-secondary/30 p-3.5 text-sm outline-none focus:border-accent transition-colors resize-none placeholder:text-muted-foreground/60 disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                    <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-3">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className={`inline-flex items-center gap-1 ${user ? 'cursor-pointer hover:text-foreground' : 'opacity-50 cursor-not-allowed'}`}>
+                          <ImageIcon className="size-3.5" /> Thêm ảnh
+                        </span>
+                        <span>•</span>
+                        <span className={`inline-flex items-center gap-1 ${user ? 'cursor-pointer hover:text-foreground' : 'opacity-50 cursor-not-allowed'}`}>
+                          <Tag className="size-3.5" /> Gắn thẻ
+                        </span>
+                      </div>
+                      {user ? (
+                        <Button variant="commerce" size="sm" type="submit">
+                          <Send className="size-3.5" /> Đăng thảo luận
+                        </Button>
+                      ) : (
+                        <Button 
+                          variant="quiet" 
+                          size="sm" 
+                          type="button"
+                          onClick={() => navigate({ to: "/login", search: { returnTo: "/community" } })}
+                        >
+                          <UserIcon className="size-3.5" /> Đăng nhập
+                        </Button>
+                      )}
+                    </div>
+                  </form>
                 </div>
 
-                <form onSubmit={handleCreateDiscussion}>
-                  <textarea
-                    rows={3}
-                    value={postContent}
-                    onChange={(e) => setPostContent(e.target.value)}
-                    placeholder={user ? "Viết cảm nghĩ, trải nghiệm phối đồ hoặc câu hỏi gửi tới cộng đồng Maison de Silk..." : "Đăng nhập để tham gia thảo luận với cộng đồng..."}
-                    disabled={!user}
-                    className="w-full border border-border bg-secondary/30 p-3.5 text-sm outline-none focus:border-accent transition-colors resize-none placeholder:text-muted-foreground/60 disabled:opacity-50 disabled:cursor-not-allowed"
-                  />
-                  <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-3">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <span className={`inline-flex items-center gap-1 ${user ? 'cursor-pointer hover:text-foreground' : 'opacity-50 cursor-not-allowed'}`}>
-                        <ImageIcon className="size-3.5" /> Thêm ảnh
-                      </span>
-                      <span>•</span>
-                      <span className={`inline-flex items-center gap-1 ${user ? 'cursor-pointer hover:text-foreground' : 'opacity-50 cursor-not-allowed'}`}>
-                        <Tag className="size-3.5" /> Gắn thẻ
-                      </span>
-                    </div>
-                    {user ? (
-                      <Button variant="commerce" size="sm" type="submit">
-                        <Send className="size-3.5" /> Đăng thảo luận
-                      </Button>
-                    ) : (
-                      <Button 
-                        variant="quiet" 
-                        size="sm" 
-                        type="button"
-                        onClick={() => navigate({ to: "/login", search: { returnTo: "/community" } })}
-                      >
-                        <UserIcon className="size-3.5" /> Đăng nhập
-                      </Button>
-                    )}
+                {/* Cột phải: Bài viết của tôi */}
+                <div className="lg:col-span-2 border border-border bg-background p-6 shadow-sm flex flex-col">
+                  <div className="flex items-center gap-2 mb-3">
+                    <PenSquare className="size-4 text-accent" />
+                    <h3 className="text-sm font-semibold">Bài viết của tôi</h3>
                   </div>
-                </form>
+                  <p className="text-[0.7rem] text-muted-foreground mb-4">
+                    Xem lại các thảo luận bạn đã đăng trên cộng đồng.
+                  </p>
+                  {user ? (
+                    <>
+                      <div className="text-2xl font-display font-bold text-foreground mb-1">
+                        {discussions.filter((d) => d.author.name === user.name).length}
+                      </div>
+                      <p className="text-[0.65rem] text-muted-foreground mb-4">bài viết đã đăng</p>
+                      <Button
+                        variant={showMyPosts ? "commerce" : "quiet"}
+                        size="sm"
+                        className="w-full"
+                        onClick={() => {
+                          setShowMyPosts(!showMyPosts);
+                          if (!showMyPosts) {
+                            window.scrollTo({ top: 500, behavior: "smooth" });
+                          }
+                        }}
+                      >
+                        {showMyPosts ? (
+                          <><ArrowLeft className="size-3.5 mr-1.5" /> Xem tất cả thảo luận</>
+                        ) : (
+                          <><Eye className="size-3.5 mr-1.5" /> Xem bài viết của tôi</>
+                        )}
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      variant="quiet"
+                      size="sm"
+                      className="w-full mt-auto"
+                      onClick={() => navigate({ to: "/login", search: { returnTo: "/community" } })}
+                    >
+                      <UserIcon className="size-3.5 mr-1.5" /> Đăng nhập để xem
+                    </Button>
+                  )}
+                </div>
               </div>
 
               {/* Feed các bài thảo luận */}
               <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-muted-foreground">
-                    {showMyPosts ? "Bài viết của bạn" : "Dòng thời gian hoạt động mới nhất"}
-                  </h3>
-                  {user && (
-                    <button
-                      onClick={() => setShowMyPosts(!showMyPosts)}
-                      className={`text-[0.68rem] font-semibold uppercase tracking-[0.12em] transition-colors cursor-pointer ${
-                        showMyPosts ? "text-accent" : "text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      {showMyPosts ? "← Xem tất cả" : "Bài viết của tôi →"}
-                    </button>
-                  )}
-                </div>
+                <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-muted-foreground">
+                  {showMyPosts ? "Bài viết của bạn" : "Dòng thời gian hoạt động mới nhất"}
+                </h3>
 
                 {(showMyPosts ? discussions.filter((d) => d.author.name === user?.name) : discussions).map((item) => {
                   const isExpanded = selectedDiscussion === item.id;
