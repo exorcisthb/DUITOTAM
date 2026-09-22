@@ -82,6 +82,8 @@ export default function CommunityPage() {
   // Community Feed State
   const [discussions, setDiscussions] = useState(COMMUNITY_DISCUSSIONS);
   const [postContent, setPostContent] = useState("");
+  const [showMyPosts, setShowMyPosts] = useState(false);
+  const [selectedDiscussion, setSelectedDiscussion] = useState<string | null>(null);
   const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({});
   const [dislikedPosts, setDislikedPosts] = useState<Record<string, boolean>>({});
   const [commentInputs, setCommentInputs] = useState<Record<string, string>>({});
@@ -1011,14 +1013,29 @@ export default function CommunityPage() {
 
               {/* Feed các bài thảo luận */}
               <div className="space-y-6">
-                <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-muted-foreground">
-                  Dòng thời gian hoạt động mới nhất
-                </h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-muted-foreground">
+                    {showMyPosts ? "Bài viết của bạn" : "Dòng thời gian hoạt động mới nhất"}
+                  </h3>
+                  {user && (
+                    <button
+                      onClick={() => setShowMyPosts(!showMyPosts)}
+                      className={`text-[0.68rem] font-semibold uppercase tracking-[0.12em] transition-colors cursor-pointer ${
+                        showMyPosts ? "text-accent" : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {showMyPosts ? "← Xem tất cả" : "Bài viết của tôi →"}
+                    </button>
+                  )}
+                </div>
 
-                {discussions.map((item) => (
+                {(showMyPosts ? discussions.filter((d) => d.author.name === user?.name) : discussions).map((item) => {
+                  const isExpanded = selectedDiscussion === item.id;
+                  return (
                   <article
                     key={item.id}
-                    className="border border-border bg-background p-6 transition-all hover:border-border/80 shadow-sm"
+                    onClick={() => setSelectedDiscussion(isExpanded ? null : item.id)}
+                    className={`border border-border bg-background p-6 transition-all hover:border-border/80 shadow-sm cursor-pointer ${isExpanded ? "ring-2 ring-accent/30" : ""}`}
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
@@ -1099,7 +1116,7 @@ export default function CommunityPage() {
                       </div>
                     </div>
 
-                    {item.comments && item.comments.length > 0 && (
+                    {isExpanded && item.comments && item.comments.length > 0 && (
                       <div className="mt-4 space-y-2.5 border-t border-border/50 pt-3 bg-secondary/10 p-3 rounded">
                         {item.comments.map((cmt, idx) => (
                           <div key={idx} className="text-xs">
@@ -1115,7 +1132,14 @@ export default function CommunityPage() {
                       </div>
                     )}
 
-                    <div className="mt-4 flex gap-2">
+                    {!isExpanded && item.comments && item.comments.length > 0 && (
+                      <p className="text-[0.68rem] text-muted-foreground mt-2">
+                        💬 {item.comments.length} bình luận — click để xem chi tiết
+                      </p>
+                    )}
+
+                    {isExpanded && (
+                    <div className="mt-4 flex gap-2" onClick={(e) => e.stopPropagation()}>
                       <input
                         type="text"
                         value={commentInputs[item.id] || ""}
@@ -1139,8 +1163,27 @@ export default function CommunityPage() {
                         Gửi
                       </Button>
                     </div>
+                    )}
                   </article>
-                ))}
+                  );
+                })}
+
+                {(showMyPosts ? discussions.filter((d) => d.author.name === user?.name) : discussions).length === 0 && (
+                  <div className="text-center py-12 border border-dashed border-border rounded-lg">
+                    <MessageCircle className="size-10 mx-auto text-muted-foreground/40 mb-3" />
+                    <p className="text-sm text-muted-foreground">
+                      {showMyPosts ? "Bạn chưa có bài thảo luận nào." : "Chưa có thảo luận nào."}
+                    </p>
+                    {showMyPosts && (
+                      <button
+                        onClick={() => setShowMyPosts(false)}
+                        className="mt-2 text-xs text-accent hover:underline cursor-pointer"
+                      >
+                        Xem tất cả thảo luận →
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
