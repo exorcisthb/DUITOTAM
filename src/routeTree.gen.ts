@@ -13,10 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -39,6 +41,11 @@ const CommunityRoute = CommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -59,6 +66,11 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductIdRoute = ProductIdRouteImport.update({
   id: '/product/$id',
   path: '/product/$id',
@@ -70,10 +82,12 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRoute
   '/checkout': typeof CheckoutRoute
   '/community': typeof CommunityRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/orders': typeof OrdersRoute
   '/products': typeof ProductsRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/product/$id': typeof ProductIdRoute
 }
 export interface FileRoutesByTo {
@@ -81,10 +95,12 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRoute
   '/checkout': typeof CheckoutRoute
   '/community': typeof CommunityRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/orders': typeof OrdersRoute
   '/products': typeof ProductsRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/product/$id': typeof ProductIdRoute
 }
 export interface FileRoutesById {
@@ -93,10 +109,12 @@ export interface FileRoutesById {
   '/blog': typeof BlogRoute
   '/checkout': typeof CheckoutRoute
   '/community': typeof CommunityRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/orders': typeof OrdersRoute
   '/products': typeof ProductsRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/product/$id': typeof ProductIdRoute
 }
 export interface FileRouteTypes {
@@ -106,10 +124,12 @@ export interface FileRouteTypes {
     | '/blog'
     | '/checkout'
     | '/community'
+    | '/forgot-password'
     | '/login'
     | '/orders'
     | '/products'
     | '/register'
+    | '/reset-password'
     | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -117,10 +137,12 @@ export interface FileRouteTypes {
     | '/blog'
     | '/checkout'
     | '/community'
+    | '/forgot-password'
     | '/login'
     | '/orders'
     | '/products'
     | '/register'
+    | '/reset-password'
     | '/product/$id'
   id:
     | '__root__'
@@ -128,10 +150,12 @@ export interface FileRouteTypes {
     | '/blog'
     | '/checkout'
     | '/community'
+    | '/forgot-password'
     | '/login'
     | '/orders'
     | '/products'
     | '/register'
+    | '/reset-password'
     | '/product/$id'
   fileRoutesById: FileRoutesById
 }
@@ -140,10 +164,12 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRoute
   CheckoutRoute: typeof CheckoutRoute
   CommunityRoute: typeof CommunityRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   OrdersRoute: typeof OrdersRoute
   ProductsRoute: typeof ProductsRoute
   RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ProductIdRoute: typeof ProductIdRoute
 }
 
@@ -177,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -205,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/product/$id': {
       id: '/product/$id'
       path: '/product/$id'
@@ -220,10 +260,12 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRoute,
   CheckoutRoute: CheckoutRoute,
   CommunityRoute: CommunityRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   OrdersRoute: OrdersRoute,
   ProductsRoute: ProductsRoute,
   RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ProductIdRoute: ProductIdRoute,
 }
 export const routeTree = rootRouteImport
