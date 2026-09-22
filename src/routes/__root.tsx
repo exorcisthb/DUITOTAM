@@ -13,6 +13,11 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth-context";
 import { AuthModal } from "../components/auth/auth-modal";
+import { CartProvider } from "../lib/cart-context";
+import { CartDrawer } from "../components/cart-drawer";
+import { ChatBot } from "../components/chat-bot";
+import { OrdersProvider } from "../lib/orders-context";
+import { ReviewsProvider } from "../lib/reviews-context";
 
 function NotFoundComponent() {
   return (
@@ -90,10 +95,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/logo-transparent.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/logo-transparent.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Italiana&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Italiana&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -122,9 +128,17 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-        <AuthModal />
+        <CartProvider>
+          <OrdersProvider>
+            <ReviewsProvider>
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <Outlet />
+              <AuthModal />
+              <CartDrawer />
+              <ChatBot />
+            </ReviewsProvider>
+          </OrdersProvider>
+        </CartProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

@@ -99,8 +99,13 @@ export function AuthModal() {
     <Dialog open={isAuthModalOpen} onOpenChange={(open) => !open && closeAuthModal()}>
       <DialogContent className="sm:max-w-[460px] p-0 overflow-hidden border-border/60 bg-background/95 backdrop-blur-md">
         {/* Header decoration */}
-        <div className="bg-primary/95 text-primary-foreground px-8 py-7 text-center relative overflow-hidden">
+        <div className="bg-primary/95 text-primary-foreground px-8 py-7 text-center relative overflow-hidden flex flex-col items-center">
           <div className="absolute inset-0 bg-radial from-accent/20 to-transparent pointer-events-none opacity-50" />
+          <img
+            src="/logo-white.png"
+            alt="Maison de Silk"
+            className="h-12 w-auto object-contain mb-2.5 drop-shadow-sm select-none"
+          />
           <p className="text-[0.68rem] tracking-[0.24em] uppercase font-semibold text-accent mb-1 flex items-center justify-center gap-1.5">
             <Sparkles className="size-3" /> Maison de Silk Authenticity
           </p>

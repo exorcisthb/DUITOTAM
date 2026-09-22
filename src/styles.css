@@ -19,8 +19,9 @@
  */
 
 @theme inline {
-  --font-sans: "Be Vietnam Pro", sans-serif;
-  --font-display: "Italiana", serif;
+  --font-sans: "Be Vietnam Pro", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-display: "Italiana", "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-serif: "Crimson Text", "Source Serif Pro", "Noto Serif", Georgia, serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -141,12 +142,40 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     letter-spacing: 0;
-    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Cải thiện font cho chữ tiếng Việt */
+  .font-serif {
+    font-family: var(--font-serif);
+    font-feature-settings: "liga" 1, "calt" 1, "kern" 1;
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+  }
+
+  .font-display {
+    font-feature-settings: "liga" 1, "dlig" 1, "kern" 1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Cải thiện rendering text tiếng Việt */
+  p, h1, h2, h3, h4, h5, h6, input, textarea, button {
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Cải thiện spacing cho dấu tiếng Việt */
+  input, textarea {
+    line-height: 1.6;
   }
 
   button, a { cursor: pointer; }
