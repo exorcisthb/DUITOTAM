@@ -48,7 +48,7 @@ function RegisterPage() {
     const res = await register({ name: username, email, password });
     if (res.success) {
       setSuccessMsg(`Đăng ký thành công! Chào mừng ${res.user?.name ?? username} đến với Maison de Silk.`);
-      setTimeout(() => navigate({ to: returnTo }), 1200);
+      setTimeout(() => navigate({ to: "/account-setup" }), 1200);
     } else {
       setErrorMsg(res.error || "Đăng ký thất bại. Vui lòng thử lại.");
     }

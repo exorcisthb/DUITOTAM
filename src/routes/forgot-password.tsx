@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Mail, AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowLeft, Mail, KeyRound, AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { getUserProfile } from "@/routes/account-setup";
 import ivory from "@/assets/product-ivory.jpg";
 
 export const Route = createFileRoute("/forgot-password")({
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/forgot-password")({
 function ForgotPasswordPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [recoveryKey, setRecoveryKey] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -36,15 +38,34 @@ function ForgotPasswordPage() {
       setErrorMsg("Vui lòng sử dụng địa chỉ Gmail (@gmail.com).");
       return;
     }
+    if (!recoveryKey.trim()) {
+      setErrorMsg("Vui lòng nhập key khôi phục.");
+      return;
+    }
 
     setIsLoading(true);
-    // Giả lập gửi email
-    await new Promise((r) => setTimeout(r, 1200));
-    setIsLoading(false);
+    await new Promise((r) => setTimeout(r, 1000));
 
-    setSuccessMsg(
-      `Link đặt lại mật khẩu đã được gửi đến ${email}. Vui lòng kiểm tra hộp thư (hoặc Spam).`
-    );
+    // Kiểm tra key khôi phục
+    const profile = getUserProfile();
+    if (!profile) {
+      setIsLoading(false);
+      setErrorMsg("Không tìm thấy thông tin tài khoản. Vui lòng liên hệ hỗ trợ.");
+      return;
+    }
+
+    if (profile.recoveryKey !== recoveryKey.trim().toUpperCase()) {
+      setIsLoading(false);
+      setErrorMsg("Key khôi phục không chính xác. Vui lòng kiểm tra lại.");
+      return;
+    }
+
+    setIsLoading(false);
+    setSuccessMsg("Xác thực thành công! Đang chuyển đến trang đặt lại mật khẩu...");
+
+    setTimeout(() => {
+      navigate({ to: "/reset-password" });
+    }, 1200);
   };
 
   return (
@@ -87,7 +108,7 @@ function ForgotPasswordPage() {
           <div className="mb-8">
             <p className="text-[0.65rem] uppercase tracking-[0.24em] text-accent mb-2">Hỗ trợ tài khoản</p>
             <h1 className="font-display text-4xl font-normal">Quên mật khẩu</h1>
-            <p className="text-muted-foreground text-sm mt-2">Nhập email để nhận link đặt lại mật khẩu.</p>
+            <p className="text-muted-foreground text-sm mt-2">Nhập email và key khôi phục để đặt lại mật khẩu.</p>
           </div>
 
           {successMsg ? (
@@ -95,24 +116,6 @@ function ForgotPasswordPage() {
               <div className="flex items-start gap-2.5 rounded-md border border-emerald-500/30 bg-emerald-500/8 p-3 text-xs text-emerald-700 dark:text-emerald-400">
                 <CheckCircle2 className="size-4 shrink-0 mt-0.5" />
                 <span>{successMsg}</span>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Không nhận được email? Kiểm tra thư mục Spam hoặc thử lại sau vài phút.
-              </p>
-              <div className="flex gap-3">
-                <Button variant="quiet" size="sm" onClick={() => { setSuccessMsg(""); setEmail(""); }} className="flex-1">
-                  Gửi lại
-                </Button>
-                <Button variant="commerce" size="sm" asChild className="flex-1">
-                  <Link to="/login" search={{ returnTo: "/" }}>Về đăng nhập</Link>
-                </Button>
-              </div>
-              {/* Demo shortcut */}
-              <div className="mt-4 p-3 rounded-md border border-dashed border-accent/40 bg-accent/5">
-                <p className="text-[0.65rem] text-accent font-semibold uppercase tracking-[0.12em] mb-1">Demo</p>
-                <Link to="/reset-password" className="text-xs text-accent hover:underline">
-                  Click để đặt lại mật khẩu ngay →
-                </Link>
               </div>
             </div>
           ) : (
@@ -141,6 +144,28 @@ function ForgotPasswordPage() {
                 </div>
               </div>
 
+              <div className="space-y-1.5">
+                <Label htmlFor="fp-key" className="text-xs font-semibold uppercase tracking-[0.12em] text-foreground/70">
+                  Key khôi phục
+                </Label>
+                <div className="relative">
+                  <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                  <Input
+                    id="fp-key"
+                    type="text"
+                    required
+                    autoComplete="off"
+                    placeholder="XXXX-XXXX-XXXX-XXXX"
+                    value={recoveryKey}
+                    onChange={(e) => setRecoveryKey(e.target.value.toUpperCase())}
+                    className="pl-10 h-12 text-sm border-border/70 focus-visible:ring-primary bg-secondary/30 font-mono tracking-[0.1em]"
+                  />
+                </div>
+                <p className="text-[0.65rem] text-muted-foreground">
+                  Key đã được cấp khi bạn đăng ký tài khoản.
+                </p>
+              </div>
+
               <Button
                 type="submit"
                 variant="commerce"
@@ -148,9 +173,9 @@ function ForgotPasswordPage() {
                 className="w-full h-12 text-xs tracking-[0.18em] mt-2"
               >
                 {isLoading ? (
-                  <><Loader2 className="size-4 animate-spin mr-2" /> Đang gửi...</>
+                  <><Loader2 className="size-4 animate-spin mr-2" /> Đang xác thực...</>
                 ) : (
-                  "Gửi link đặt lại mật khẩu"
+                  "Xác nhận & Đặt lại mật khẩu"
                 )}
               </Button>
 
