@@ -10,11 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccountSetupRouteImport } from './routes/account-setup'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
-import { Route as AccountSetupRouteImport } from './routes/account-setup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as ProductsRouteImport } from './routes/products'
@@ -25,6 +25,11 @@ import { Route as ProductIdRouteImport } from './routes/product.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountSetupRoute = AccountSetupRouteImport.update({
+  id: '/account-setup',
+  path: '/account-setup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -45,11 +50,6 @@ const CommunityRoute = CommunityRouteImport.update({
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AccountSetupRoute = AccountSetupRouteImport.update({
-  id: '/account-setup',
-  path: '/account-setup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
