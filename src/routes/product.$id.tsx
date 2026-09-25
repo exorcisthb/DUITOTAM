@@ -18,9 +18,11 @@ import {
   Sparkles,
   Info,
   ChevronRight,
+  Image as ImageIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BrandLogo } from "@/components/brand-logo";
+import { TryOnModal } from "@/components/try-on-modal";
 import { PRODUCTS_DATA, getProductById, type ProductData, type ReviewItem, toSlug } from "@/data/products";
 import { useCart } from "@/lib/cart-context";
 import { useReviews } from "@/lib/reviews-context";
@@ -54,6 +56,15 @@ function ProductDetailPage() {
   const [notice, setNotice] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [showTryOnModal, setShowTryOnModal] = useState(false);
+
+  const openTryOnModal = () => {
+    setShowTryOnModal(true);
+  };
+
+  const closeTryOnModal = () => {
+    setShowTryOnModal(false);
+  };
 
   // Review state: merge static + user reviews from localStorage
   const userReviews = getUserReviews(product.id);
@@ -186,6 +197,20 @@ function ProductDetailPage() {
                 )}
                 <div className="absolute bottom-4 left-4 bg-background/85 px-3 py-1.5 backdrop-blur-sm text-[0.7rem] font-medium text-foreground flex items-center gap-1.5">
                   <Sparkles className="size-3 text-accent" /> 100% Đũi Tơ Tằm Thật
+                </div>
+
+                {/* Try-on Button - Show on hover */}
+                <button
+                  onClick={openTryOnModal}
+                  className="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 grid size-10 place-items-center rounded-full bg-background/90 text-foreground shadow-lg hover:bg-background hover:scale-105 cursor-pointer border border-border/50"
+                  aria-label="Thử đồ ảo"
+                >
+                  <Sparkles className="size-5 text-accent" />
+                </button>
+
+                {/* Try-on Label on hover */}
+                <div className="absolute right-4 top-14 opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-100 bg-background/90 px-2.5 py-1 rounded-full text-[0.65rem] font-medium text-foreground shadow-lg border border-border/50 whitespace-nowrap">
+                  <Sparkles className="size-3 inline mr-1 text-accent" /> Thử đồ ảo
                 </div>
               </div>
 
@@ -708,6 +733,15 @@ function ProductDetailPage() {
             ))}
           </div>
         </section>
+
+        {/* Try-on Modal */}
+        <TryOnModal
+          isOpen={showTryOnModal}
+          onClose={closeTryOnModal}
+          clothingImageUrl={selectedImage}
+          productName={product.name}
+        />
+
       </main>
 
       {/* Footer */}
