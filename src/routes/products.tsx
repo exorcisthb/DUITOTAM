@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Heart, ShoppingBag, ArrowLeft, Eye } from "lucide-react";
+import { Heart, ShoppingBag, ArrowLeft, Eye, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BrandLogo } from "@/components/brand-logo";
 import { toSlug } from "@/data/products";
@@ -77,7 +77,14 @@ function ProductsPage() {
             <ArrowLeft className="size-4" /> Trang chủ
           </Link>
           <BrandLogo size="md" />
-          <div className="flex items-center justify-end w-24">
+          <div className="flex items-center justify-end gap-3">
+            <Link
+              to="/try-on"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase text-accent bg-accent/10 hover:bg-accent/20 transition-colors"
+            >
+              <Sparkles className="size-3.5" />
+              <span className="hidden sm:inline">Thử đồ AI</span>
+            </Link>
             <button
               onClick={openCart}
               className="relative grid size-10 place-items-center border border-border text-foreground hover:border-foreground transition-colors cursor-pointer"

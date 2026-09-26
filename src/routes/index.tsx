@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowRight, Eye, Heart, LogOut, Menu, Package, Search, ShoppingBag, Star, User, Users, X } from "lucide-react";
+import { ArrowRight, Eye, Heart, LogOut, Menu, Package, Search, ShoppingBag, Sparkles, Star, User, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
 import { BrandLogo, BrandMark } from "@/components/brand-logo";
@@ -137,6 +137,11 @@ function Home() {
             </div>
 
             <a href="#craft" onClick={(e) => scrollToSection(e, "craft")} className="transition-colors hover:text-accent">Chất liệu</a>
+            <a href="/try-on" className="flex items-center gap-1.5 transition-colors hover:text-accent group">
+              <Sparkles className="size-3.5 text-accent transition-transform group-hover:scale-125" />
+              Thử đồ
+              <span className="rounded-full bg-accent/15 px-1.5 py-0.5 text-[0.6rem] font-bold text-accent normal-case tracking-normal">AI</span>
+            </a>
             <a href="/community" className="flex items-center gap-1.5 transition-colors hover:text-accent"><Users size={15}/> Community</a>
           </nav>
           <div className="flex items-center gap-1 md:gap-3">
@@ -253,6 +258,9 @@ function Home() {
                 ))}
               </div>
             </div>
+            <a href="/try-on" onClick={() => setMenu(false)} className="flex items-center gap-2 text-left text-accent font-medium">
+              <Sparkles className="size-4" /> Thử đồ AI
+            </a>
             <a href="#craft" onClick={(e) => { setMenu(false); scrollToSection(e, "craft"); }}>Chất liệu</a>
             <a href="/community" onClick={() => setMenu(false)} className="text-left block">Community</a>
             {user ? (
@@ -504,6 +512,7 @@ function Home() {
             <div className="space-y-3">
               <p className="text-xs uppercase tracking-[0.15em] text-primary-foreground/55">Khám phá</p>
               <a href="/products" className="block hover:underline">Sản phẩm</a>
+              <a href="/try-on" className="block hover:underline">Thử đồ AI</a>
               <a href="#craft" className="block hover:underline">Câu chuyện</a>
               <a href="/community" className="block hover:underline">Community</a>
               <a href="/blog" className="block hover:underline">Blog</a>
