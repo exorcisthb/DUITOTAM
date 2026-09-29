@@ -1,4 +1,4 @@
-﻿import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import React, { useState, useEffect } from "react";
 import {
   ArrowLeft,
@@ -257,6 +257,8 @@ export function CheckoutPage() {
   const [hasCopiedSTK, setHasCopiedSTK] = useState(false);
   const [hasCopiedContent, setHasCopiedContent] = useState(false);
   const [countdown, setCountdown] = useState(900); // 15 mins
+  const [qrLoading, setQrLoading] = useState(true);
+  const [qrError, setQrError] = useState(false);
 
   // Review modal state
   const [activeReviewProductId, setActiveReviewProductId] = useState<string | null>(null);
@@ -330,6 +332,8 @@ export function CheckoutPage() {
       // Tài khoản thì mở popup VNPAY QR
       setPurchasedItems(snapshot);
       setCountdown(900);
+      setQrLoading(true);
+      setQrError(false);
       setShowVnPayModal(true);
     }
   };
@@ -370,10 +374,24 @@ export function CheckoutPage() {
     clearCart();
   };
 
-  // QR Code URL via VietQR
-  const qrUrl = `https://img.vietqr.io/image/MB-190368888888-compact2.png?amount=${currentTotalAmount}&addInfo=${encodeURIComponent(
-    `${orderCode} TT`
-  )}&accountName=MAISON%20DE%20SILK`;
+  // QR Code URL via VietQR — must be integer amount
+  const amountInt = Math.round(currentTotalAmount);
+  const addInfo = encodeURIComponent(`${orderCode} TT`);
+  const qrUrl = `https://img.vietqr.io/image/MB-190368888888-compact2.png?amount=${amountInt}&addInfo=${addInfo}&accountName=MAISON%20DE%20SILK`;
+
+  // Fallback: encode a VietQR-compatible EMVCo string via qrserver so bank apps can still read it
+  // Format: NAPAS VietQR universal transfer string
+  const vietQrFallbackData = [
+    "00020101021238570010A00000072701270006970436011219036888888880208QRIBFTTA",
+    `5303704540${String(amountInt).length.toString().padStart(2,'0')}${amountInt}`,
+    `5802VN5914MAISON DE SILK6007HA NOI`,
+    `62${String(14 + orderCode.length).toString().padStart(2,'0')}08${String(orderCode.length).toString().padStart(2,'0')}${orderCode} TT`,
+    "6304"
+  ].join("");
+  const qrFallbackUrl = `https://api.qrserver.com/v1/create-qr-code/?size=256x256&ecc=M&data=${encodeURIComponent(vietQrFallbackData)}`;
+
+  // MB deeplink for mobile
+  const mbDeeplink = `mbmobile://transfer?accountNo=190368888888&amount=${amountInt}&description=${encodeURIComponent(`${orderCode} TT`)}&beneficiaryName=MAISON%20DE%20SILK`;
 
   // Màn hình hoàn tất đơn hàng
   if (isOrderComplete) {
@@ -890,22 +908,50 @@ export function CheckoutPage() {
               </div>
 
               {/* Khung quét mã QR */}
-              <div className="relative mx-auto w-56 p-2 rounded-2xl bg-white border-2 border-red-500/30 shadow-inner flex flex-col items-center justify-center">
+              <div className="relative mx-auto w-60 p-2.5 rounded-2xl bg-white border-2 border-red-500/40 shadow-lg flex flex-col items-center justify-center">
+                {/* Loading spinner */}
+                {qrLoading && !qrError && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-white/90 z-10">
+                    <div className="size-8 rounded-full border-2 border-red-500/20 border-t-red-600 animate-spin mb-2" />
+                    <span className="text-[0.62rem] text-muted-foreground">Đang tải mã QR...</span>
+                  </div>
+                )}
+                {/* Error state */}
+                {qrError && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-white/95 z-10 gap-2 p-3">
+                    <AlertCircle className="size-6 text-amber-500" />
+                    <p className="text-[0.62rem] text-center text-muted-foreground leading-relaxed">
+                      Không tải được QR từ VietQR.<br/>Đang hiển thị QR dự phòng.
+                    </p>
+                  </div>
+                )}
                 <img
-                  src={qrUrl}
+                  src={qrError ? qrFallbackUrl : qrUrl}
                   alt="Mã VNPAY QR"
-                  className="w-52 h-auto object-contain rounded-xl"
-                  onError={(e) => {
-                    // Fallback to generic VietQR if error
-                    (e.target as HTMLImageElement).src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
-                      `STK: 190368888888 | MBBANK | SO TIEN: ${currentTotalAmount} | MA DON: ${orderCode}`
-                    )}`;
+                  className="w-56 h-56 object-contain rounded-xl"
+                  onLoad={() => { setQrLoading(false); }}
+                  onError={() => {
+                    if (!qrError) {
+                      setQrError(true);
+                      setQrLoading(false);
+                    }
                   }}
                 />
-                <div className="mt-1 flex items-center gap-1 text-[0.65rem] text-muted-foreground font-medium">
+                <div className="mt-1.5 flex items-center gap-1 text-[0.65rem] text-muted-foreground font-medium">
                   <QrCode className="size-3 text-red-600" />
-                  <span>Quét QR tự động điền số tiền</span>
+                  <span>{qrError ? "QR dự phòng (tương thích VietQR)" : "Quét QR tự động điền số tiền"}</span>
                 </div>
+              </div>
+
+              {/* Mobile deeplink button */}
+              <div className="mt-3">
+                <a
+                  href={mbDeeplink}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-secondary/50 px-3 py-1.5 text-[0.65rem] text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                >
+                  <span>📱</span>
+                  <span>Mở MB App để chuyển khoản (mobile)</span>
+                </a>
               </div>
 
               {/* Thông tin chuyển khoản chi tiết */}

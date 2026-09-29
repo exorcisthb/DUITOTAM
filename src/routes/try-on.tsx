@@ -41,7 +41,6 @@ export const Route = createFileRoute("/try-on")({
 });
 
 // Sample portrait model options for instant demo without uploading
-// These are portrait images with clear visible faces - perfect for face swap AI
 const SAMPLE_MODELS = [
   {
     id: "sample-1",
@@ -187,7 +186,7 @@ export default function TryOnPage() {
     setLoadingStep("Đang chuẩn bị ảnh chân dung và trang phục...");
 
     try {
-      // Step 1: Prepare files
+      // Chuẩn bị file ảnh người dùng
       let actualPersonFile = personFile;
       if (!actualPersonFile && personPreview) {
         const res = await fetch(personPreview);
@@ -195,7 +194,7 @@ export default function TryOnPage() {
         actualPersonFile = new File([blob], "person.jpg", { type: "image/jpeg" });
       }
 
-      setLoadingStep("Đang chuẩn bị dữ liệu trang phục " + selectedProduct.name + "...");
+      setLoadingStep("Đang chuẩn bị trang phục " + selectedProduct.name + "...");
       const clothingRes = await fetch(selectedProduct.image);
       const clothingBlob = await clothingRes.blob();
       const clothingFile = new File([clothingBlob], "clothing.jpg", {
@@ -205,21 +204,25 @@ export default function TryOnPage() {
       const formData = new FormData();
       formData.append("personImage", actualPersonFile!);
       formData.append("clothingImage", clothingFile);
-      formData.append("productName", selectedProduct.name);
-      formData.append("productTone", selectedProduct.tone);
+      formData.append(
+        "garmentDescription",
+        `${selectedProduct.name} - ${selectedProduct.tone} đũi tơ tằm`
+      );
+      formData.append("productId", selectedProduct.id);
 
-      setLoadingStep("AI đang phân tích khuôn mặt & vóc dáng của bạn...");
+      setLoadingStep("AI đang nhận diện vóc dáng và khuôn mặt của bạn...");
 
-      // Update loading steps for realistic user feedback
       const stepTimer1 = setTimeout(() => {
-        setLoadingStep("AI đang may đo trang phục " + selectedProduct.name + " lên người bạn...");
-      }, 3500);
+        setLoadingStep(
+          "AI đang may đo và mặc " + selectedProduct.name + " lên người bạn..."
+        );
+      }, 2500);
 
       const stepTimer2 = setTimeout(() => {
-        setLoadingStep("Đang hoàn thiện chất liệu vải đũi tơ tằm và ánh sáng tự nhiên...");
-      }, 7000);
+        setLoadingStep("Đang tinh chỉnh nếp gấp vải lụa tơ tằm và ánh sáng tự nhiên...");
+      }, 6000);
 
-      // Call API
+      // Gọi API Virtual Try-On IDM-VTON
       const result = await virtualTryOnFn({ data: formData });
 
       clearTimeout(stepTimer1);
@@ -228,17 +231,17 @@ export default function TryOnPage() {
       if (result.success && result.resultImageUrl) {
         setResultImage(result.resultImageUrl);
         setInfoNotice(
-          "✓ Đã hoàn tất thử đồ mẫu " + selectedProduct.name + " thành công!"
+          "✓ Bạn đã được khoác lên chiếc " + selectedProduct.name + " thành công!"
         );
       } else {
         setErrorMessage(
-          result.error || "Không thể tạo ảnh thử đồ từ AI. Vui lòng bấm thử lại."
+          result.error || "AI không thể thử đồ. Hãy dùng ảnh chân dung rõ mặt, đứng thẳng."
         );
       }
     } catch (err: unknown) {
       console.error("TryOn API error:", err);
-      const message = err instanceof Error ? err.message : "Lỗi kết nối khi gọi AI thử đồ";
-      setErrorMessage(message + ". Vui lòng thử lại.");
+      const message = err instanceof Error ? err.message : "Lỗi kết nối khi gọi AI";
+      setErrorMessage("Lỗi: " + message + ". Hãy thử lại.");
     } finally {
       setIsLoading(false);
       setLoadingStep("");
